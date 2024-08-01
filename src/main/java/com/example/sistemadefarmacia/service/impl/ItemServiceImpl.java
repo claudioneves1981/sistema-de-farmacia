@@ -22,21 +22,18 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
-    public void editar(Long codigo, Item item) {
+    public Item editar(Long codigo, Item item) {
         Optional<Item> itemBd = itemRepository.findById(codigo);
-        Item itematualizado = itemBd.get();
         if(itemBd.isPresent()) {
-           // itematualizado.setCodigo(codigo);
-            itematualizado.setNome(item.getNome());
-            itematualizado.setQuantidade(item.getQuantidade());
-            itematualizado.setTipo(item.getTipo());
-            itemRepository.save(itematualizado);
+            item.setCodigo(codigo);
+            itemRepository.save(item);
         }
+        return item;
     }
 
     @Override
-    public Item pesquisar(Long codigo) {
-           return itemRepository.findById(codigo).get();
+    public Item pesquisar(Long codigo) throws Exception {
+        return itemRepository.findById(codigo).orElseThrow(() -> new Exception("Item não encontrado"));
     }
 
     @Override

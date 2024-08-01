@@ -6,9 +6,9 @@ public interface ItemService {
 
     void cadastrar(Item item);
 
-    void editar(Long codigo, Item item);
+    Item editar(Long codigo, Item item);
 
-    Item pesquisar(Long codigo);
+    Item pesquisar(Long codigo) throws Exception;
 
     void excluir(Long codigo);
 }

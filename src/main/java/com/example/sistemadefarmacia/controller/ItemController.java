@@ -3,6 +3,7 @@ package com.example.sistemadefarmacia.controller;
 import com.example.sistemadefarmacia.model.Item;
 import com.example.sistemadefarmacia.service.ItemService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,24 +23,23 @@ public class ItemController {
     @PutMapping(value = "editar/{codigo}")
     @ResponseBody
     public ResponseEntity<?> editar(@PathVariable("codigo") Long codigo, @RequestBody Item item){
-        try{
-            item.setCodigo(codigo);
-            itemService.editar(codigo, item);
-            return ResponseEntity.ok(item);
-        }catch(Exception e){
-            return ResponseEntity.badRequest().body("Codigo informado invalido ou incorreto");
-        }
+             Item itematualizado = itemService.editar(codigo, item);
+             if(itematualizado.getCodigo() == null){
+                 return new ResponseEntity<>("Codigo invalido ou item inexistente", HttpStatus.OK);
+             }else {
+                 return new ResponseEntity<>(itematualizado, HttpStatus.OK);
+             }
     }
 
     @GetMapping(value = "pesquisar/{codigo}")
     @ResponseBody
-    public ResponseEntity<Item> pesquisar(@PathVariable("codigo") Long codigo){
+    public ResponseEntity<?> pesquisar(@PathVariable("codigo") Long codigo){
             try{
                 Item item = itemService.pesquisar(codigo);
-                return ResponseEntity.ok(item);
+                return new ResponseEntity<>(item, HttpStatus.OK);
            }catch(Exception e) {
-                return ResponseEntity.notFound().build();
-           }
+                return new ResponseEntity<>("Item não encontrado", HttpStatus.NOT_FOUND);
+            }
     }
 
     @DeleteMapping(value = "excluir/{codigo}")
