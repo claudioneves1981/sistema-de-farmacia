@@ -7,6 +7,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 public class ItemController {
 
@@ -46,5 +48,11 @@ public class ItemController {
     @ResponseBody
     public void excluir(@PathVariable("codigo") Long codigo){
           itemService.excluir(codigo);
+    }
+
+    @GetMapping(value = "exibirtudo" )
+    @ResponseBody
+    public ResponseEntity<List<Item>> exibirTudo(){
+        return new ResponseEntity<>(itemService.exibirTudo(), HttpStatus.OK);
     }
 }

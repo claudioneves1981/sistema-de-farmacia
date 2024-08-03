@@ -6,6 +6,7 @@ import com.example.sistemadefarmacia.service.ItemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -39,5 +40,10 @@ public class ItemServiceImpl implements ItemService {
     @Override
     public void excluir(Long codigo) {
         itemRepository.deleteById(codigo);
+    }
+
+    @Override
+    public List<Item> exibirTudo() {
+        return itemRepository.findAll();
     }
 }
